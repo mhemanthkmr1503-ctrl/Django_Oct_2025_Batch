@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Oct Batc{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>October Batch Application</header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>Besant Technologies © 2024</footer>
+</body>
+</html>

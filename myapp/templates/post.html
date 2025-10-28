@@ -1,0 +1,8 @@
+<ul>
+{% for post in posts %}
+    <li>{{ post.title }} - {{ post.created_at|date:"M d, Y" }}</li>
+{% empty %}
+    <li>No posts yet.</li>
+{% endfor %}
+</ul>
+
