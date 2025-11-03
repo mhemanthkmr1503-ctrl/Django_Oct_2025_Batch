@@ -6,5 +6,7 @@ urlpatterns = [
     path('post/', views.post, name='post'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
+    path('login/', views.login, name='login'),
+    path('attendance/', views.attendance, name='attendance'),
     re_path(r'^archive/(?P<year>[0-9]{4})/$', views.year_archive),
 ]

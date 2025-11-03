@@ -11,11 +11,11 @@ class Author(models.Model):
         return self.name
     
 class Post(models.Model):
-    title = models.CharField(max_length=200)
-    content = models.TextField()
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    is_published = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=200, help_text="Enter the post's title (max 200 characters).")
+    content = models.TextField(help_text="Write the full content of the post.")
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, help_text="Select the author who wrote this post.")
+    is_published = models.BooleanField(default=False, help_text="Mark as published to make the post visible to readers.")
+    created_at = models.DateTimeField(auto_now_add=True, help_text="Date and time when the post was created (auto-populated).")
 
     def __str__(self):
         return self.title
@@ -28,3 +28,19 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.comment
+    
+class Course(models.Model):
+    name = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+class Attendance(models.Model):
+    student_id = models.PositiveIntegerField()
+    name = models.CharField(max_length=50)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

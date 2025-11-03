@@ -28,6 +28,13 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
     actions = [publish_posts, unpublish_posts]
     inlines = [CommentInline]
+    fieldsets = (
+        ('Content', {'fields': ('title', 'author')}),
+        ('Metadata', {'fields': ('is_published',)}),
+        ('Description', {'fields': ('content',)})
+    )
+    autocomplete_fields = ['author']
+    prepopulated_fields = {"content": ("title",)}
 
 @admin.register(models.Comment)
 class CommentsAdmin(admin.ModelAdmin):
@@ -35,3 +42,18 @@ class CommentsAdmin(admin.ModelAdmin):
     search_fields = ['comment', 'post', 'author']
     list_filter = ['created_at']
     date_hierarchy = 'created_at'
+
+@admin.register(models.Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ['name', 'created_at']
+    search_fields = ['name']
+    list_filter = ['created_at']
+    date_hierarchy = 'created_at'
+
+@admin.register(models.Attendance)
+class AttendanceAdmin(admin.ModelAdmin):
+    list_display = ['student_id', 'name', 'course', 'created_at']
+    search_fields = ['name']
+    list_filter = ['created_at']
+    date_hierarchy = 'created_at'
+    autocomplete_fields = ['course']

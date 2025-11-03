@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, request
 from datetime import datetime
+from .form import LoginForm, AttendanceForm
 # Create your views here.
 
 # Home
@@ -50,3 +51,23 @@ def contact(request):
     }
 
     return render(request, 'contact.html', context)
+
+def login(request):
+    form = LoginForm()
+    return render(request, 'login.html', {'form' : form})
+
+def attendance(request):
+    if request.method == 'GET':
+        print("GET Method")
+        form = AttendanceForm()
+        return render(request, 'attendance_form.html', {'form' : form})
+    elif request.method == 'POST':
+        print("POST Method")
+        form = AttendanceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('Thanks for Submitting Your Attendance')
+        # name = request.POST.get('name', '')
+        # student_id = request.POST.get('student_id', '')
+        # print(name)
+        return render(request, 'attendance_form.html', {'form' : form})        # print(student_id)
