@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, request
 from datetime import datetime
 from .form import LoginForm, AttendanceForm
+from django.contrib.auth.forms import UserCreationForm
+
 # Create your views here.
 
 # Home
@@ -9,7 +11,7 @@ from .form import LoginForm, AttendanceForm
 # Contact
 
 def home(request):
-    return HttpResponse("Home Page")
+    return render(request, 'home.html')
 
 def about(request):
     title = "About Us"
@@ -71,3 +73,13 @@ def attendance(request):
         # student_id = request.POST.get('student_id', '')
         # print(name)
         return render(request, 'attendance_form.html', {'form' : form})        # print(student_id)
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})

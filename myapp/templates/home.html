@@ -1,0 +1,9 @@
+<p>Home Page</p>
+
+{% if user.is_authenticated %}
+    <h1> User Logged in as {{user.username}}</h1>
+    <form method="post">
+        {% csrf_token %}
+    </form>
+    <a href="{url password_change}">Change Password</a>    
+{% endif %}
