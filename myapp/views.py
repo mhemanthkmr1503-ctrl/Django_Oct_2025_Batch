@@ -3,6 +3,9 @@ from django.http import HttpResponse, request
 from datetime import datetime
 from .form import LoginForm, AttendanceForm
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import permission_required
+from django.views.generic import ListView
+from .models import Post
 
 # Create your views here.
 
@@ -43,6 +46,11 @@ def post(request):
 
     return render(request, 'post.html', context)
 
+class PostView(ListView):
+    model = Post
+    template_name = "post.html"
+    context_object_name = "posts"
+
 def year_archive(request, year):
     return HttpResponse("Year :" + str(year))
 
@@ -58,6 +66,8 @@ def login(request):
     form = LoginForm()
     return render(request, 'login.html', {'form' : form})
 
+
+@permission_required('myapp.add_attendance')
 def attendance(request):
     if request.method == 'GET':
         print("GET Method")

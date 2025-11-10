@@ -1,8 +1,30 @@
-<ul>
-{% for post in posts %}
-    <li>{{ post.title }} - {{ post.created_at|date:"M d, Y" }}</li>
-{% empty %}
-    <li>No posts yet.</li>
-{% endfor %}
-</ul>
+{% extends "base.html" %}
 
+{% block title %}Post – My Site{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      {% if posts %}
+        {% for post in posts %}
+            {% if post.is_published %}
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text text-muted small">{{ post.created_at|date:"M d, Y" }}</p>
+                    <p class="card-text">{{ post.content }}</p>
+                    <p class="card-text"><small class="text-muted">By: {{ post.author }}</small></p>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+      {% else %}
+        <div class="text-center py-5">
+          <h3 class="text-muted">No posts yet.</h3>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
