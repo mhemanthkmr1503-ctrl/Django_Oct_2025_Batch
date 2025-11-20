@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.http import HttpResponse, request
 from datetime import datetime
 from .form import LoginForm, AttendanceForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import permission_required
-from django.views.generic import ListView
-from .models import Post
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
+from .models import Post, Attendance
+from django.db.models import Avg, Count, Min, Max, Sum
 
 # Create your views here.
 
@@ -44,12 +45,56 @@ def post(request):
         'posts' : []
     }
 
+    result = Attendance.objects.values('name').annotate(attendance_count=Count('student_id'))
+
+    print(result)
+
     return render(request, 'post.html', context)
 
 class PostView(ListView):
     model = Post
     template_name = "post.html"
     context_object_name = "posts"
+
+class PostDetailedView(DetailView):
+    model = Post
+    template_name = "post_detail.html"
+    context_object_name = "post"
+    pk_url_kwarg = 'id'
+
+class PostCreateView(CreateView):
+    model = Post
+    template_name = "create_post.html"
+    context_object_name = "form"
+    fields = ['title', 'content', 'author', 'cover_image']
+    success_url='/success'
+
+class PostUpdateView(UpdateView):
+    model = Post
+    template_name = "create_post.html"
+    context_object_name = "form"
+    fields = ['title', 'content', 'author']
+    pk_url_kwarg = 'id'
+    success_url='/success'
+
+class PostDeleteView(DeleteView):
+    model = Post
+    pk_url_kwarg = 'id'
+    success_url='/success'
+
+    def get(self, request, *args, **kwargs):
+        # Skip the confirmation page, delete directly
+        self.object = self.get_object()
+        self.object.delete()
+        return redirect('/success')
+
+class AttendanceFormView(FormView):
+    form_class = AttendanceForm
+    template_name = "create_post.html"
+    context_object_name = "form"
+
+def success(request):
+    return render(request, 'success.html')
 
 def year_archive(request, year):
     return HttpResponse("Year :" + str(year))

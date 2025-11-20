@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - My Site{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-8">
+      {% if post %}
+        <article class="post-detail">
+          <!-- Post Header -->
+          <header class="mb-4">
+            <h1 class="display-4 fw-bold text-primary mb-3">{{ post.title }}</h1>
+            <div class="d-flex flex-wrap align-items-center text-muted mb-3">
+              <span class="me-3">
+                <i class="bi bi-calendar me-1"></i>
+                {{ post.created_at|date:"M d, Y" }}
+              </span>
+              <span>
+                <i class="bi bi-person me-1"></i>
+                By: {{ post.author }}
+              </span>
+            </div>
+          </header>
+
+          <!-- Post Content -->
+          <div class="post-content">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <div class="post-text fs-5">
+                  {{ post.content|linebreaks }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post Meta/Actions (Optional) -->
+          <footer class="mt-4 pt-3 border-top">
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">
+                Posted on {{ post.created_at|date:"F d, Y \a\t g:i A" }}
+              </small>
+              <div class="post-actions">
+                <a href="{% url 'post' %}" class="btn btn-outline-secondary btn-sm">
+                  <i class="bi bi-arrow-left me-1"></i>Back to Posts
+                </a>
+              </div>
+            </div>
+          </footer>
+        </article>
+      {% else %}
+        <div class="text-center py-5">
+          <div class="mb-4">
+            <i class="bi bi-file-earmark-text display-1 text-secondary"></i>
+          </div>
+          <h3 class="text-muted mb-3">Post Not Found</h3>
+          <p class="lead text-muted">The post you're looking for doesn't exist or may have been removed.</p>
+          <a href="{% url 'post' %}" class="btn btn-primary">Browse All Posts</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
