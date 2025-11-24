@@ -12,7 +12,7 @@ class Author(models.Model):
     
 def upload_to(instance, filename):
     """Generate upload path for user-uploaded files"""
-    return f'blog_images/{instance.author.username}_{filename}'
+    return f'blog_images/{instance.author.name}_{filename}'
     
 class Post(models.Model):
     title = models.CharField(max_length=200, help_text="Enter the post's title (max 200 characters).")

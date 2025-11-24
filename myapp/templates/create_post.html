@@ -6,7 +6,7 @@
 <div class="container mt-4">
   <div class="row">
     <div class="col-lg-8 mx-auto">
-      <form method="post">
+      <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Submit</button>
